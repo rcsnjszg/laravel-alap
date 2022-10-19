@@ -16,3 +16,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+.DS_Store
+docker/php/home
+docker/mysql/var/lib/mysql/*
+.idea
+README.pdf

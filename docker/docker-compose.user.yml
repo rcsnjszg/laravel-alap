@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  app:
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      HOME: "/home/phpdocker"
