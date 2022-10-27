@@ -1,66 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel kiinduó projekt
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Szerver előkészítése
 
-## About Laravel
+A `https://github.com/rcsnjszg/laravel-alap.git` egy olyan alap projektet tartalmaz, ami már tartalmaz egy teljes webszervert docker alapokon, továbbá `https://github.com/laravel/laravel` oldalon található laravel 9-es verzióját.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A tároló klónozásával hozzunk létre egy új projektet.
+A `projekt_neve` helyére illesszük be, hogy melyik mappában szeretnénk ezt megtenni.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/rcsnjszg/laravel-alap.git projekt_neve
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Amennyiben nem lenne git a gépünkön telepítve, az előbbi műveletet docker segítségével is megtehetjük:
 
-## Learning Laravel
+**Windows - CMD:**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bat
+docker run -it --rm -v %cd%:/git alpine/git clone ^
+    https://github.com/rcsnjszg/laravel-alap.git projekt_neve
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Windows - Power Shell**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```powershell
+docker run -it --rm -v /${PWD}:/git alpine/git clone \
+    https://github.com/rcsnjszg/laravel-alap.git projekt_neve
+```
+**Mac és Linux - bash, zsh, fish**
 
-## Laravel Sponsors
+```bash
+docker run -it --rm -v (pwd):/git alpine/git clone \
+    https://github.com/rcsnjszg/laravel-alap.git projekt_neve
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Ahogy a Laravel projekt esetén, így itt is szükségünk lesz egy `.env` fájlra, amit a `.env.example` másolásával hozhatjuk létre a legegyszerűbben.
+Ezt a gyökérkönyvtárban tegyük meg, hiszen ott található a `.env.example` fájl.
 
-### Premium Partners
+**Windows - CMD:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bat
+copy .env.example .env
+```
 
-## Contributing
+**Windows - Power Shell**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```powershell
+Copy-Item .env.example .env
+```
+**Mac és Linux - bash, zsh, fish**
 
-## Code of Conduct
+```bash
+cp .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+\pagebreak
 
-## Security Vulnerabilities
+Mivel a php nem egy kész image lesz, hanem mi magunk építjük fel, továbbá kiegészítéseket is telepítünk hozzá,
+így a `docker/php/Dockerfile` "recept" alapján kell felépíteni:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+docker compose build
+```
 
-## License
+*Első futtatáskor sok időt vehet igénybe. Amennyiben a Dockerfile-t nem módosítjük legközelebb ezen gyorsan túlléphetünk*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Innentől a `docker compose up` paranccsal indíthatjuk a szerverünket.
+
+A `-f` meghatározza a compose fájl elérési útvonalát, ebbőltöbbet is használni fogunk.
+
+ - Az alap fájl a `docker-compose.yml`
+ - A `docker-compose.dev.yml` olyan felüldefiniálásokat tartalmaz, ami a fejlesztéshez fog kelleni.
+ - A `docker-compose.prod.yml` olyan felüldefiniálásokat tartalmaz, ami majd a kész projekt futtatásakor, bemutatásakor használandó.
+ - A `docker-compose.user.yml` akkor kellhet, ha felhasználó jogosultságok az adott gépen nem megfelelően lennének beállítva.
+
+A `-d` kapcsoló segítségével `detached`  módbín indítjuk, aminek eredményeképp a konténerek kimenete nem kerül a képernyőnkre.
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml  up -d
+```
+
+Ha szeretnénk visszakeresni, akkor a log fájlból visszanyerhetjük.
+
+## Laravel projekt indítása konténeren kívülről
+
+Mivel a laravel felhasznál rengeteg előre megírt osztályt, így eszeket a `composer` segítségével telepíteni kell.
+Mivel ez egy php nyelven írt alkalmazás, így ezt a php konténerünkben kell, hogy futtassuk. Mivel a `Dockerfile` tartalmazza, így magát a composert nem szükséges letölteni/telepíteni.
+
+```bash
+docker compose exec php composer install
+```
+
+A laravel működéséhez szükséges egy egyedi kulcs (API Key) generálása,
+amit a laravelhez csomagolt konzolos php szkript,
+az `artisan` megfelelő paraméterezésével `key:generate` hozhatjuk létre.
+
+```bash
+docker compose exec php php artisan key:generate
+```
+
+Itt az első `php` az a konténer neve, míg a második `php` magát a php-cli-t takarja.
+
+A `--show` paraméter hozzáadásával nem csak legenerálja a kucsot, hanem megmutatja számunkra.
+
+Előfordulhat, hogy nem működik a parancs, ilyenkor a böngészőben megnyitva
+a "Generate app key" gombra kattintva generálhatjuk le. Ez után az oldal frissítése szükséges, 
+ezt a "Refresh now" linkre kattintva is megtehetjük.
+
+```bash
+docker compose exec php php artisan key:generate --show
+```
+
+Ekkor a `.env` fájlban az `APP_KEY` értékét beállítja.
+Ennek eredményét az alábbi szripttel ellenőrízhatjük.
+
+```bash
+docker compose exec php cat .env | grep ^APP_KEY
+```
+
+## Laravel parancsok futtatása a konténerben.
+
+Amennyiben a `php` konténeren belül adunk ki parancsokat,
+úgy az elejéről a `docker compose exec php` elhagyható.
+
+Ehhez elsőként csatlakozzunk a a konténerhez.
+Mivel a `docker compose` segítségével indítottuk, így most is azt használhatjuk.
+
+A `docker compose exec kontener_neve futtatandó_program paraméterek` sablon alapján tudunk nekiindulni.
+
+Mivel egy shell-t szeretnénk kapni, így egy létező nevét adhatjuk meg.
+Elsőként lehet a `/bin/bash` jut eszünkbe, de azt alapból az alpine php nem tartalmazza és nem is telepítettük.
+Egy másik lehetőség, amit alapból tartalmaz az a `/bin/sh`. A két shell között akad némi különbség.
+
+Egy kis összehasonlítás: https://www.baeldung.com/linux/sh-vs-bash.
+
+A könnyebb kezelhetőség kedvéért a `fish` (friendly interactive shell)
+hozzá lett adva a `Dockerfile`-ban, így érdemes ezt választani.
+
+```bash
+docker compose exec php fish
+```
+
+Amenyiben a php konténerben vagyunk egyszerűen futtathatjuk a szükséges parancsokat.
+
+```bash
+composer install
+php artisan key:generate
+```
+
+## Hibakezelés
+
+**No application encryption key has been specified.**
+
+Amennyiben a kulcs lelett generálva, de ennek ellenére sem működik, akkor a konfigurációs cache-t érdemes újra generálni    .
+
+```bash
+php artisan config:cache
+```
+
+ - https://stackoverflow.com/questions/53236518/difference-between-php-artisan-configcache-and-php-artisan-cacheclear-in-l
+
+\pagebreak
+
+**Valamelyik fájl nem írható**
+
+
+
+Amennyiben jogosultság probléma állna fenn az alaáábi értékeket kellene helyesen megadni a `.env` fájlban.
+
+Itt lesz szerepe a `docker-compose.user.yml` fájlnak.
+
+```text
+UID=1000
+GID=1000
+```
+
+**UID értéke:** `id -u`
+
+**GID értéke:** `id -g`
+
+
+ >  The ability to automatically process UID and GID vars will not be added to compose. Reasoning is solidly explained on github (https://github.com/compose-spec/compose-spec/issues/94) as a potential security hole in a declarative language.
+
+- https://stackoverflow.com/questions/50552970/laravel-docker-the-stream-or-file-var-www-html-storage-logs-laravel-log-co
+- https://stackoverflow.com/questions/56844746/how-to-set-uid-and-gid-in-docker compose
+- https://dev.to/acro5piano/specifying-user-and-group-in-docker-i2e
+
+
+**Hogyan helyes? "`composer`" vagy "`php composer`"?**
+
+A konténerben a composer úgy van bekonfigurálva, hogy tudja sajátmagáról, hogy ő egy PHP script. Továbbá a `PATH`-ben szerepel a `php` elérési útvonala.
+
+Ezeknek köszönhetően elhagyható a `php` a szkript futtatása előtt. Máshol szükséges kirakni!
+
+**Hogyan helyes? "`artisan`",  "`php artisan`" vagy "`./artisan`"?**
+
+A composer-hez hasonlóan az artisan is php-ban megírt konzolos script lesz.
+
+Meghívható a `php` közvetlen megadásával, de ez akár el is hahyható.
+
+Az `artisan` fájl a `www` mappa gyökerében szerepel, ugyanakkor a `Dockerfile`-ban létre lett hozva egy szimbolikus link, így egyszerűen `artisan` kiadásával használható lesz.
+
+**A buildelés megszakadt, hibaüzenetet adott**
+
+Amennyiben a `docker compose build` leállna érdemes újra futtatni, és reménykedni.
+
+\pagebreak
+
+## Automaizált futtatás
+
+Amennyiben nem szeretnénk soronként futtatni létrehozhatunk olyan szkriptet, ami ezt automatizálja.
+
+## Feltöltés saját GIT repoba
+A `git remote -v` parancs segítségével nézhetjük meg, hogy jelenleg mi a beállított távoli repo.
+
+```bash
+git remote -v
+```
+
+```text
+origin  git@github.com:rcsnjszg/laravel-alap.git (fetch)
+origin  git@github.com:rcsnjszg/laravel-alap.git (push)
+```
+
+Láthatjuk, hogy az a repo van beállítva, amit leklónoztunk.
+Ugyan publikus, de a `push` művelethez nincs akárkinek jogosultsága.
+
+Létre kell hozni egy saját repo-t. Ezt beállítani, és ide pusholni, illetve későbbiekben innen pullolni.
+
+A `git remote add` nem használható, mert már hozzá lett adva (klónozáskor).
+Kiadásakor *error: remote origin already exists.* hibaüzenetet kapunk.
+
+A `git remote set-url` segítségével cserélhetjük le az URL-t.
+
+Például
+
+```bash
+git remote set-url origin git@github.com:rcsnjszg/laravel-test-sajat.git
+```
