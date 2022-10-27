@@ -22,7 +22,7 @@ services:
 
 
   app:
-    image: rcsnjszg/larvelapp:0.0.1-alpine
+    image: rcsnjszg/laravelapp:0.0.1-alpine
     build:
       context: ./docker/php
       dockerfile: Dockerfile
