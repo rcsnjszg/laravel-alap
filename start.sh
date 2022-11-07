@@ -1,4 +1,10 @@
-#!/bin/sh
+#!/bin/sh -e
+
+COMPOSE="docker compose"
+
+if ! $($COMPOSE 2>/dev/null); then
+    COMPOSE="docker-compose"
+fi
 
 if [ -f ".env" ]; then
     echo ".env fájl már létezik!"
@@ -14,7 +20,7 @@ fi
 
 # shopt -s expand_aliases
 
-docker compose -f docker-compose.yml -f docker-compose.$MODE.yml  up -d
-docker compose exec app artisan key:generate
-docker compose exec app composer install
-docker compose exec app npm install
+$COMPOSE -f docker-compose.yml -f docker-compose.$MODE.yml  up -d
+$COMPOSE exec app composer install
+$COMPOSE exec app artisan key:generate
+$COMPOSE exec app npm install
