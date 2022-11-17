@@ -46,7 +46,7 @@ services:
       - MYSQL_DATABASE=${DB_DATABASE}
       - TZ="${TZ}"
     ports:
-      - "${DB_PORT}:3306"
+      - "${DB_PUBLIC_PORT}:3306"
     volumes:
       - "./docker/mysql/var/lib/mysql:/var/lib/mysql:rw"
     networks:
