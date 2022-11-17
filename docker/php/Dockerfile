@@ -35,9 +35,9 @@ RUN docker-php-ext-install  pdo \
                             exif \
                             pcntl \
                             gd
-
-RUN ln -s /www/artisan /usr/bin/
-
 USER phpdocker
+
+COPY artisan /usr/bin/
+
 
 CMD ["php-fpm"]
