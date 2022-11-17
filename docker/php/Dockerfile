@@ -37,7 +37,5 @@ RUN docker-php-ext-install  pdo \
                             gd
 USER phpdocker
 
-COPY artisan /usr/bin/
-
 
 CMD ["php-fpm"]

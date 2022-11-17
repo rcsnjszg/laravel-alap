@@ -98,7 +98,7 @@ az `artisan` megfelelő paraméterezésével `key:generate` hozhatjuk létre.
 docker compose exec app php artisan key:generate
 ```
 
-Itt az első `php` az a konténer neve, míg a második `php` magát a php-cli-t takarja.
+Itt az `app` a konténer neve, míg a második `php` magát a php-cli-t takarja.
 
 Ekkor a `.env` fájlban az `APP_KEY` értékét beállítja.
 
@@ -181,9 +181,9 @@ Ezeknek köszönhetően elhagyható a `php` a szkript futtatása előtt. Máshol
 
 A composer-hez hasonlóan az artisan is php-ban megírt konzolos script lesz.
 
-Meghívható a `php` közvetlen megadásával, de ez akár el is hahyható.
+Meghívható a `php` közvetlen megadásával, de ez akár el is hahyható bizonyos esetekben.
 
-Az `artisan` fájl a `www` mappa gyökerében szerepel, ugyanakkor a `Dockerfile`-ban fel lett másolva egy verzió a `/usr/bin` mappába, így onnen is futtatható.
+Az `artisan` fájl a `www` mappa gyökerében szerepel, így célszerű ebből a mappából kiadni az artisan parancsokat.
 
 **A buildelés megszakadt, hibaüzenetet adott**
 
