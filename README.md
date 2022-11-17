@@ -87,7 +87,7 @@ Mivel a laravel felhasznál rengeteg előre megírt osztályt, így eszeket a `c
 Mivel ez egy php nyelven írt alkalmazás, így ezt a php konténerünkben kell, hogy futtassuk. Mivel a `Dockerfile` tartalmazza, így magát a composert nem szükséges letölteni/telepíteni.
 
 ```bash
-docker compose exec php composer install
+docker compose exec app composer install
 ```
 
 A laravel működéséhez szükséges egy egyedi kulcs (API Key) generálása,
@@ -95,32 +95,17 @@ amit a laravelhez csomagolt konzolos php szkript,
 az `artisan` megfelelő paraméterezésével `key:generate` hozhatjuk létre.
 
 ```bash
-docker compose exec php php artisan key:generate
+docker compose exec app php artisan key:generate
 ```
 
 Itt az első `php` az a konténer neve, míg a második `php` magát a php-cli-t takarja.
 
-A `--show` paraméter hozzáadásával nem csak legenerálja a kucsot, hanem megmutatja számunkra.
-
-Előfordulhat, hogy nem működik a parancs, ilyenkor a böngészőben megnyitva
-a "Generate app key" gombra kattintva generálhatjuk le. Ez után az oldal frissítése szükséges, 
-ezt a "Refresh now" linkre kattintva is megtehetjük.
-
-```bash
-docker compose exec php php artisan key:generate --show
-```
-
 Ekkor a `.env` fájlban az `APP_KEY` értékét beállítja.
-Ennek eredményét az alábbi szripttel ellenőrízhatjük.
-
-```bash
-docker compose exec php cat .env | grep ^APP_KEY
-```
 
 ## Laravel parancsok futtatása a konténerben.
 
-Amennyiben a `php` konténeren belül adunk ki parancsokat,
-úgy az elejéről a `docker compose exec php` elhagyható.
+Amennyiben az `app` konténeren belül adunk ki parancsokat,
+úgy az elejéről a `docker compose exec app` elhagyható.
 
 Ehhez elsőként csatlakozzunk a a konténerhez.
 Mivel a `docker compose` segítségével indítottuk, így most is azt használhatjuk.
@@ -137,7 +122,7 @@ A könnyebb kezelhetőség kedvéért a `fish` (friendly interactive shell)
 hozzá lett adva a `Dockerfile`-ban, így érdemes ezt választani.
 
 ```bash
-docker compose exec php fish
+docker compose exec app fish
 ```
 
 Amenyiben a php konténerben vagyunk egyszerűen futtathatjuk a szükséges parancsokat.
@@ -198,7 +183,7 @@ A composer-hez hasonlóan az artisan is php-ban megírt konzolos script lesz.
 
 Meghívható a `php` közvetlen megadásával, de ez akár el is hahyható.
 
-Az `artisan` fájl a `www` mappa gyökerében szerepel, ugyanakkor a `Dockerfile`-ban létre lett hozva egy szimbolikus link, így egyszerűen `artisan` kiadásával használható lesz.
+Az `artisan` fájl a `www` mappa gyökerében szerepel, ugyanakkor a `Dockerfile`-ban fel lett másolva egy verzió a `/usr/bin` mappába, így onnen is futtatható.
 
 **A buildelés megszakadt, hibaüzenetet adott**
 
