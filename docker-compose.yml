@@ -30,7 +30,7 @@ services:
       - "${VITE_PORT}:${VITE_PORT}"
     volumes:
       - ./:/www:rw
-      - ./docker/php/home:/home/phpdocker:rw
+      # - ./docker/php/home:/home/phpdocker:rw
     networks:
       - webapp
 
