@@ -1,3 +1,9 @@
 <template>
-  <h1 class="">Helló, Vite és Vue meg Laravel!</h1>
+  <nav-bar />
+  <router-view />
 </template>
+
+<script setup>
+import { RouterView } from 'vue-router';
+import NavBar from '@/components/layout/BSNavBar.vue';
+</script>
