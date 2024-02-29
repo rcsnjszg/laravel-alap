@@ -48,7 +48,7 @@ services:
     ports:
       - "${DB_PUBLIC_PORT}:3306"
     volumes:
-      - "./docker/mysql/var/lib/mysql:/var/lib/mysql:rw"
+      - "mysql:/var/lib/mysql:rw"
     networks:
       - webapp
 
@@ -69,3 +69,8 @@ services:
       - ./docker/phpmyadmin/config/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
     networks:
       - webapp
+
+
+volumes:
+  mysql:
+
